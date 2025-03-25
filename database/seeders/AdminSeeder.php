@@ -14,7 +14,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        // Creating Super Admin User
+        // Creating Admin User
         $Admin = User::create([
             'name' => 'Bibit',
             'email' => 'admin@roles.id',
@@ -29,11 +29,11 @@ class AdminSeeder extends Seeder
         ]);
         $manager->assignRole('Manager');
         // Creating Product Manager User
-        $employee = User::create([
+        $operator = User::create([
             'name' => 'Steffi',
-            'email' => 'employee@roles.id',
+            'email' => 'operator@roles.id',
             'password' => Hash::make('123456')
         ]);
-        $employee->assignRole('Employee');
+        $operator->assignRole('Operator');
     }
 }
