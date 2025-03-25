@@ -15,12 +15,12 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         // Creating Admin User
-        $Admin = User::create([
+        $admin = User::create([
             'name' => 'Bibit',
             'email' => 'admin@roles.id',
             'password' => Hash::make('123456')
         ]);
-        $Admin->assignRole('Admin');
+        $admin->assignRole('Admin');
         // Creating Admin User
         $manager = User::create([
             'name' => 'Sachi',
@@ -29,11 +29,11 @@ class AdminSeeder extends Seeder
         ]);
         $manager->assignRole('Manager');
         // Creating Product Manager User
-        $operator = User::create([
+        $employee = User::create([
             'name' => 'Steffi',
-            'email' => 'operator@roles.id',
+            'email' => 'employee@roles.id',
             'password' => Hash::make('123456')
         ]);
-        $operator->assignRole('Operator');
+        $employee->assignRole('Employee');
     }
 }
