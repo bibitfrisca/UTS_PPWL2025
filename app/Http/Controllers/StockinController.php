@@ -2,93 +2,96 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Stockin;
+use App\Http\Requests\StoreStockinRequest;
+use App\Http\Requests\UpdateStockinRequest;
+use illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Product;
 use App\Models\User;
 
 class StockinController extends Controller
 {
-    public function index()
+    /**
+     * Instantiate a new ProductController instance.
+     */
+    public function __construct()
     {
-        $stockins = Stockin::latest()->paginate(5);
-        return view('stockins.index', compact('stockins'));
+        $this->middleware('auth');
+        $this->middleware('permission:create-stockin|edit-stockin|delete-stockin', ['only' => ['index', 'show']]);
+        $this->middleware('permission:create-stockin', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit-stockin', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete-stockin', ['only' => ['destroy']]);
     }
-
-    public function create()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): View
+    {
+        return view('stockins.index', [
+            'stockins' => Stockin::latest()->paginate(3)
+        ]);
+    }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create():View
     {
         $products = Product::all();
         $users = User::all();
         return view('stockins.create', compact('products', 'users'));
     }
-
-    public function store(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreStockinRequest $request): RedirectResponse
     {
-        $request->validate([
-            'stockin_code' => 'required',
-            'product_id' => 'required',
-            'product_name' => 'required',
-            'user_id' => 'required',
-            'name' => 'required',
-            'quantity' => 'required',
-            'date' => 'required',
-        ]);
-
         $stockins = $request->all();
         $stockins['stockin_code'] = 'I' . mt_rand(100000, 999999);
 
         if ($stockins['stockin_code']) {
-            Stockin::create($stockins);
+            Stockin::create($stockins, $request->validated());
 
             return redirect()->route('stockins.index')
             ->with('success', 'Stockin created successfully.');
         }
+        return redirect()->route('stockins.index')
+        ->with('error', 'Failed to create Stockin.');
     }
-
-    public function show(string $stockin_code)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Stockin $stockin): View
     {
-        $stockins = Stockin::where('stockin_code', $stockin_code)->first();
-        return view('stockins.show', compact('stockin'));
+        return view('stockins.show', [
+            'stockin' => $stockin
+        ]);
     }
-
-    public function edit(string $stockin_code)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Stockin $stockin): View
     {
-        $stockins = Stockin::findOrFail($stockin_code);
         $products = Product::all();
         $users = User::all();
         return view('stockins.edit', compact('stockin', 'products', 'users'));
     }
-
-    public function update(Request $request, string $stockin_code)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateStockinRequest $request, Stockin $stockin): RedirectResponse
     {
-        $request->validate([
-            'stockin_code' => 'required',
-            'product_id' => 'required',
-            'product_name' => 'required',
-            'user_id' => 'required',
-            'name' => 'required',
-            'quantity' => 'required',
-            'date' => 'required',
-        ]);
-
-        $stockins = Stockin::findOrFail($stockin_code);
-
-        $user = User::all();
-        $product = Product::all();
-
-        $stockins->update($request->all());
-
-        return redirect()->route('stockins.index')
-            ->with('success', 'Stockin updated successfully.');
+        $stockin->update($request->validated());
+        return redirect()->back()
+            ->withSuccess('Stockin is updated successfully.');
     }
-
-    public function destroy(string $stockin_code)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Stockin $stockin): RedirectResponse
     {
-        $stockins = Stockin::findOrFail($stockin_code);
-        $stockins->delete();
-
+        $stockin->delete();
         return redirect()->route('stockins.index')
             ->with('success', 'Stockin deleted successfully.');
     }
-
 }
