@@ -7,21 +7,33 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>GlowTrack - INVENTORY MANAGEMENT</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
+    <!-- Styles -->
+    <style>
+        body { background-color: #0D0D5F; } /* Biru Tua */
+        .navbar { background-color: #4B0D74; } /* Ungu Tua */
+        .sidebar { background-color: #4B0D74; min-height: 100vh; padding-top: 20px; } /* Ungu Tua */
+        .nav-link { color: #000000; } /* Hitam */
+        .nav-link:hover { background-color: #8813A8; color: white; } /* Ungu Neon */
+        .content { background: #D529B4; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); } /* Merah Muda Terang */
+        .content h1, .content h2, .content h3, .content h4, .content h5, .content h6, .content p { color: #F05AE0; } /* Pink Neon */
+    </style>
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
+
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand px 3 border-bottom">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand text-white" href="{{ url('home') }}">
+                    GlowTrack INVENTORY MANAGEMENT
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -30,7 +42,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -38,19 +49,11 @@
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="{{ Auth::user()->name }}" width="30" height="30" style="border-radius: 50%;">
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -72,9 +75,77 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <div class="container-fluid">
+            <div class="row">
+                @auth
+                <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                    <div class="position-sticky">
+                        <ul class="nav flex-column">
+                            @canany(['create-roles', 'edit-roles', 'delete-roles'])
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('roles.index') }}">Manage Roles</a>
+                                </li>
+                            @endcanany
+
+                            @canany(['create-users', 'edit-users', 'delete-users'])
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('users.index') }}">Manage Users</a>
+                                </li>
+                            @endcanany
+
+                            @canany(['create-stockins', 'edit-stockins', 'delete-stockins'])
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('stockins.index') }}">Manage Stocks In</a>
+                                </li>
+                            @endcanany
+
+                            @canany(['create-stockouts', 'edit-stockouts', 'delete-stockouts'])
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('stockouts.index') }}">Manage Stocks Out</a>
+                                </li>
+                            @endcanany
+
+                            @canany(['create-products', 'edit-products', 'delete-products'])
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('products.index') }}">Manage Products</a>
+                                </li>
+                            @endcanany
+                        </ul>
+                    </div>
+                </nav>
+                @endauth
+
+                <main class="@auth col-md-9 ms-sm-auto col-lg-10 @else col-md-12 @endauth px-md-4 py-4">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-12">
+                        @if ($message = Session::get('success'))
+                            <div class="alert alert-success text-center" role="alert">
+                                {{ $message }}
+                            </div>
+                        @endif
+                        @yield('content')
+                        <div class="row justify-content-center text-center mt-3">
+                            <div class="col-md-12">
+                                <p>
+                                    &copy; {{ date('Y') }} GlowTrack. All rights reserved.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
     </div>
+    {{-- mencegah user untuk kembali halaman login --}}
+    <script>
+        // previous page should be reloaded when user navigate through browser navigation
+        // for mozilla
+        window.onunload = function() {};
+        // for chrome
+        if (window.performance && window.performance.navigation.type ===
+            window.performance.navigation.TYPE_BACK_FORWARD) {
+            location.reload();
+        }
+    </script>
 </body>
 </html>
