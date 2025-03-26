@@ -32,11 +32,10 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
-        return view('users.create', [
-            'roles' => Role::pluck('name')->all()
-        ]);
+        $roles = Role::pluck('name', 'name')->all();
+        return view('users.create', compact('roles'));
     }
     /**
      * Store a newly created resource in storage.
