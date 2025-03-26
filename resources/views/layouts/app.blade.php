@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>GlowTrack - INVENTORY MANAGEMENT</title>
+    <title>INVENTORY MANAGEMENT</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -18,7 +18,7 @@
         body { background-color: #0D0D5F; } /* Biru Tua */
         .navbar { background-color: #4B0D74; } /* Ungu Tua */
         .sidebar { background-color: #4B0D74; min-height: 100vh; padding-top: 20px; } /* Ungu Tua */
-        .nav-link { color: #000000; } /* Hitam */
+        .nav-link { color: #FFFFFF; } /* Putih */
         .nav-link:hover { background-color: #8813A8; color: white; } /* Ungu Neon */
         .content { background: #D529B4; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); } /* Merah Muda Terang */
         .content h1, .content h2, .content h3, .content h4, .content h5, .content h6, .content p { color: #F05AE0; } /* Pink Neon */
@@ -33,7 +33,7 @@
         <nav class="navbar navbar-expand px 3 border-bottom">
             <div class="container">
                 <a class="navbar-brand text-white" href="{{ url('home') }}">
-                    GlowTrack INVENTORY MANAGEMENT
+                    INVENTORY MANAGEMENT
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -81,35 +81,43 @@
                 <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
                     <div class="position-sticky">
                         <ul class="nav flex-column">
-                            @canany(['create-roles', 'edit-roles', 'delete-roles'])
+                            @if(Auth::user()->hasRole('Admin'))
                                 <li class="nav-item">
                                     <a class="nav-link text-white my-2 border-bottom" href="{{ route('roles.index') }}">Manage Roles</a>
                                 </li>
-                            @endcanany
-
-                            @canany(['create-users', 'edit-users', 'delete-users'])
                                 <li class="nav-item">
                                     <a class="nav-link text-white my-2 border-bottom" href="{{ route('users.index') }}">Manage Users</a>
                                 </li>
-                            @endcanany
-
-                            @canany(['create-stockins', 'edit-stockins', 'delete-stockins'])
                                 <li class="nav-item">
                                     <a class="nav-link text-white my-2 border-bottom" href="{{ route('stockins.index') }}">Manage Stocks In</a>
                                 </li>
-                            @endcanany
-
-                            @canany(['create-stockouts', 'edit-stockouts', 'delete-stockouts'])
                                 <li class="nav-item">
                                     <a class="nav-link text-white my-2 border-bottom" href="{{ route('stockouts.index') }}">Manage Stocks Out</a>
                                 </li>
-                            @endcanany
-
-                            @canany(['create-products', 'edit-products', 'delete-products'])
                                 <li class="nav-item">
                                     <a class="nav-link text-white my-2 border-bottom" href="{{ route('products.index') }}">Manage Products</a>
                                 </li>
-                            @endcanany
+                            @elseif(Auth::user()->hasRole('Manager'))
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('stockins.index') }}">Manage Stocks In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('stockouts.index') }}">Manage Stocks Out</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('products.index') }}">Manage Products</a>
+                                </li>
+                            @elseif(Auth::user()->hasRole('Employee'))
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('stockins.index') }}">Manage Stocks In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('stockouts.index') }}">Manage Stocks Out</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('products.index') }}">Manage Products</a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </nav>
@@ -127,7 +135,7 @@
                         <div class="row justify-content-center text-center mt-3">
                             <div class="col-md-12">
                                 <p>
-                                    &copy; {{ date('Y') }} GlowTrack. All rights reserved.
+                                    &copy; {{ date('Y') }} All rights reserved.
                                 </p>
                             </div>
                         </div>
