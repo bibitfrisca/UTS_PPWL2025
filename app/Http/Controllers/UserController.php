@@ -26,7 +26,7 @@ class UserController extends Controller
     public function index(): View
     {
         return view('users.index', [
-            'users' => User::latest('id')->paginate(3)
+            'users' => User::latest('id')->paginate(5)
         ]);
     }
     /**
@@ -99,7 +99,7 @@ class UserController extends Controller
     public function destroy(User $user): RedirectResponse
     {
         // About if user is Admin or User ID belongs to Auth User
-        if ($user->hasRole('Admin') || $user->id == auth()->user()->id) {
+        if (!$user->hasRole('Admin')) {
             abort(403, 'USER DOES NOT HAVE THE RIGHT PERMISSIONS');
         }
         $user->syncRoles([]);

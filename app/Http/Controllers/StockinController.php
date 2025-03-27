@@ -29,7 +29,7 @@ class StockinController extends Controller
     public function index(): View
     {
         return view('stockins.index', [
-            'stockins' => Stockin::latest()->paginate(3)
+            'stockins' => Stockin::latest()->paginate(5)
         ]);
     }
     /**
@@ -53,10 +53,10 @@ class StockinController extends Controller
             Stockin::create($stockins, $request->validated());
 
             return redirect()->route('stockins.index')
-            ->with('success', 'Stockin created successfully.');
+            ->with('success', 'Stock In created successfully.');
         }
         return redirect()->route('stockins.index')
-        ->with('error', 'Failed to create Stockin.');
+        ->with('error', 'Failed to create Stock In.');
     }
     /**
      * Display the specified resource.
@@ -83,7 +83,7 @@ class StockinController extends Controller
     {
         $stockin->update($request->validated());
         return redirect()->back()
-            ->withSuccess('Stockin is updated successfully.');
+            ->withSuccess('Stock In is updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
@@ -92,6 +92,6 @@ class StockinController extends Controller
     {
         $stockin->delete();
         return redirect()->route('stockins.index')
-            ->with('success', 'Stockin deleted successfully.');
+            ->with('success', 'Stock In deleted successfully.');
     }
 }

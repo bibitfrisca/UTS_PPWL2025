@@ -3,11 +3,6 @@
 @section('content')
 <div class="container">
     <h1 style="color: #4B0D74;">User List</h1>
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success text-center" role="alert">
-            {{ $message }}
-        </div>
-    @endif
     @can('create-user')
         <a href="{{ route('users.create') }}" class="btn btn-primary mb-3" style="background-color: #4B0D74; border-color: #4B0D74;">Add Users</a>
     @endcan
@@ -45,7 +40,9 @@
                     </td>
                     <td>
                         @can('edit-user')
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary" style="background-color: #4B0D74; border-color: #4B0D74; margin-right: 5px;">Edit</a>
+                            @if (auth()->user()->id == $user->id || !$user->hasRole('Admin'))
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary" style="background-color: #4B0D74; border-color: #4B0D74; margin-right: 5px;">Edit</a>
+                            @endif
                         @endcan
                         @can('delete-user')
                             <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">

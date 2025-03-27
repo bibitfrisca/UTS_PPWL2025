@@ -29,7 +29,7 @@ class StockoutController extends Controller
     public function index(): View
     {
         return view('stockouts.index', [
-            'stockouts' => Stockout::latest()->paginate(3)
+            'stockouts' => Stockout::latest()->paginate(5)
         ]);
     }
     /**
@@ -53,10 +53,10 @@ class StockoutController extends Controller
             Stockout::create($stockouts, $request->validated());
 
             return redirect()->route('stockouts.index')
-            ->with('success', 'Stockout created successfully.');
+            ->with('success', 'Stock Out created successfully.');
         }
         return redirect()->route('stockout.index')
-        ->with('error', 'Failed to create Stockout.');
+        ->with('error', 'Failed to create Stock Out.');
     }
     /**
      * Display the specified resource.
@@ -83,7 +83,7 @@ class StockoutController extends Controller
     {
         $stockout->update($request->validated());
         return redirect()->back()
-            ->withSuccess('Stockout is updated successfully.');
+            ->withSuccess('Stock Out is updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
@@ -92,6 +92,6 @@ class StockoutController extends Controller
     {
         $stockout->delete();
         return redirect()->route('stockouts.index')
-            ->with('success', 'Stockout deleted successfully.');
+            ->with('success', 'Stock Out deleted successfully.');
     }
 }

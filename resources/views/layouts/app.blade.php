@@ -83,9 +83,6 @@
                         <ul class="nav flex-column">
                             @if(Auth::user()->hasRole('Admin'))
                                 <li class="nav-item">
-                                    <a class="nav-link text-white my-2 border-bottom" href="{{ route('roles.index') }}">Manage Roles</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link text-white my-2 border-bottom" href="{{ route('users.index') }}">Manage Users</a>
                                 </li>
                                 <li class="nav-item">

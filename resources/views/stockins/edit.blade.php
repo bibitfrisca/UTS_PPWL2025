@@ -2,10 +2,7 @@
 
 @section('content')
     <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 style="color:#fff; background-color: #4B0D74; border: 2px solid; padding: 10px; border-radius: 5px;">Edit Stockin</h5>
-        <a href="{{ route('stockins.index') }}" class="btn btn-primary btn-sm" style="background-color: #4B0D74; border-color: #4B0D74;">&larr; Back</a>
-    </div>
         <form action="{{ route('stockins.update', $stockin->id) }}" method="POST">
             @csrf
             @method('PUT')
@@ -34,7 +31,7 @@
                 </select>
             </div>
             <div class="form-group mb-3">
-                <label for="name" style="color: #F05AE0;">Full Name</label>
+                <label for="name" style="color: #F05AE0;">Stock Name</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ $stockin->name }}" required>
             </div>
             <div class="form-group mb-3">
