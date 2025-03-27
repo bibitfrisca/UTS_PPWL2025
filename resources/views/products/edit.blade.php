@@ -30,10 +30,13 @@
             <div class="form-group mb-3">
                 <label for="category" style="color: #F05AE0;">Category</label>
                 <select name="category" id="category" class="form-control">
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    @foreach(App\Models\Product::getCategories() as $category)
+                        <option value="{{ $category }}" {{ $product->category == $category ? 'selected' : '' }}>{{ $category }}</option>
                     @endforeach
                 </select>
+                @if ($errors->has('category'))
+                    <span class="text-danger">{{ $errors->first('category') }}</span>
+                @endif
             </div>
             <button type="submit" class="btn btn-primary" style="background-color: #4B0D74; border-color: #4B0D74; margin-right: 10px;">Update</button>
             <a href="{{ route('products.index') }}" class="btn btn-secondary" style="background-color: #8813A8; border-color: #8813A8;">Cancel</a>

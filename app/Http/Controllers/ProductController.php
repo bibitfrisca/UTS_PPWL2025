@@ -45,9 +45,13 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
-        Product::create($request->all());
+        $products = $request->except('code');
+        $products['code'] = 'P' . mt_rand(100000, 999999);
+
+        Product::create($products);
+
         return redirect()->route('products.index')
-            ->withSuccess('New product is added successfully.');
+            ->with('success', 'Product created successfully.');
     }
     /**
      * Display the specified resource.

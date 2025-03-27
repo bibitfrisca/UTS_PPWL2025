@@ -21,4 +21,14 @@ class Product extends Model
         'price',
         'category'
     ];
+
+     /**
+     * Get the available categories for the product.
+     *
+     * @return array
+     */
+    public static function getCategories()
+    {
+        return ['Makeup', 'Skincare'];
+    }
 }
