@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('stockin', function (Blueprint $table) {
             $table->id();
-            $table->string('stockin_code');
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->string('product_name');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->integer('quantity');
+            $table->string('stockin_code')->unique();
+            $table->text('product_name'); // To store comma-separated product names
+            $table->text('quantity'); // To store comma-separated quantities
+            $table->unsignedBigInteger('user_id');
             $table->date('date');
             $table->timestamps();
         });

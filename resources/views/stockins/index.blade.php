@@ -11,30 +11,45 @@
             <tr style="text-align: center">
                 <th scope="col">#</th>
                 <th scope="col">Stock In Code</th>
-                <th scope="col">Product</th>
-                <th scope="col">Quantity</th>
+                <th scope="col">Product/s</th>
+                <th scope="col">Boxes</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($stockins as $stockin)
+                @php
+                    $products = explode(',', $stockin->product_name);
+                    $quantities = explode(',', $stockin->quantity);
+                @endphp
                 <tr>
-                <style>
-                    td, th {
-                        border-right: 1px solid rgb(222, 201, 237); /* Garis antar kolom */
-                        padding: 10px;
-                    }
+                    <style>
+                        td, th {
+                            border-right: 1px solid rgb(222, 201, 237); /* Garis antar kolom */
+                            padding: 10px;
+                        }
 
-                    /* Hapus garis kanan untuk kolom terakhir */
-                    td:last-child, th:last-child {
-                        border-right: none;
-                    }
-                </style>
+                        /* Hapus garis kanan untuk kolom terakhir */
+                        td:last-child, th:last-child {
+                            border-right: none;
+                        }
+                    </style>
                     <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
                     <td>{{ $stockin->stockin_code }}</td>
-                    <td>{{ $stockin->product_name }}</td>
-                    <td>{{ $stockin->quantity }}</td>
                     <td>
+                        <ul>
+                            @foreach ((array) $products as $index => $product)
+                                <li>{{ trim($product) }} 
+                                    ({{ isset($quantities[$index]) ? ceil($quantities[$index] / 12) : '0' }} boxes) 
+                                </li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td>
+                        {{ array_sum(array_map(fn($q) => ceil($q / 12), $quantities)) }} boxes
+                    </td>
+                    <td>
+                        <a href="{{ route('stockins.show', $stockin->id) }}" class="btn btn-primary" style="color:white; margin-right: 5px;"><i class="bi bi-eye"></i> Show</a>
                         @can('edit-stockin')
                             <a href="{{ route('stockins.edit', $stockin->id) }}" class="btn btn-primary" style="background-color: #4B0D74; border-color: #4B0D74; margin-right: 5px;">Edit</a>
                         @endcan

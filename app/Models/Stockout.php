@@ -15,12 +15,10 @@ class Stockout extends Model
 
     protected $fillable = [
         'stockout_code', 
-        'product_id', 
-        'product_name', 
+        'product_name',
+        'quantity',
         'user_id',
-        'name',
-        'quantity', 
-        'date'
+        'date',
     ];
 
     public function product()
@@ -30,6 +28,6 @@ class Stockout extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'name');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 }
