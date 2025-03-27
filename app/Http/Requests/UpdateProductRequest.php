@@ -24,10 +24,10 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|string|max:250',
-            'name' => 'required|string|max:250',
-            'price' => 'required|numeric',
-            'category' => 'required|string|in:Makeup,Skincare'
+            'code' => 'nullable|string|max:250',
+            'name' => 'nullable|string|max:250',
+            'price' => 'nullable|numeric',
+            'category' => 'nullable|string|in:Makeup,Skincare'
         ];
     }
 }

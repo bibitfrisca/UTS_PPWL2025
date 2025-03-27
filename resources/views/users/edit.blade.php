@@ -2,10 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 style="color:#fff; background-color: #4B0D74; border: 2px solid; padding: 10px; border-radius: 5px;">Edit User</h5>
-        <a href="{{ route('users.index') }}" class="btn btn-primary btn-sm" style="background-color: #4B0D74; border-color: #4B0D74;">&larr; Back</a>
-    </div>
+    <h5 style="color:#fff; background-color: #4B0D74; border: 2px solid; padding: 10px; border-radius: 5px;">Edit User</h5>
     <form action="{{ route('users.update', $user->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -36,16 +33,17 @@
             <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
         </div>
         <div class="form-group mb-3">
-            <label for="roles" style="color: #F05AE0;">Roles</label>
-            <select name="roles[]" id="roles" class="form-control @error('roles') is-invalid @enderror" multiple required>
+            <label for="roles" style="color: #F05AE0;">Role</label>
+            <select name="roles" id="roles" class="form-control @error('roles') is-invalid @enderror" required>
+                <option value="" disabled selected>Select a role</option>
                 @forelse ($roles as $role)
-                    @if ($role != 'Super Admin')
-                        <option value="{{ $role }}" {{ in_array($role, old('roles', $user->roles->pluck('name')->toArray())) ? 'selected' : '' }}>
+                    @if ($role != 'Admin')
+                        <option value="{{ $role }}" {{ old('roles', $user->roles->pluck('name')->first()) == $role ? 'selected' : '' }}>
                             {{ $role }}
                         </option>
                     @else
-                        @if (Auth::user()->hasRole('Super Admin'))
-                            <option value="{{ $role }}" {{ in_array($role, old('roles', $user->roles->pluck('name')->toArray())) ? 'selected' : '' }}>
+                        @if (Auth::user()->hasRole('Admin'))
+                            <option value="{{ $role }}" {{ old('roles', $user->roles->pluck('name')->first()) == $role ? 'selected' : '' }}>
                                 {{ $role }}
                             </option>
                         @endif

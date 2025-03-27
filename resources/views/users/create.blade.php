@@ -31,16 +31,17 @@
             <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
         </div>
         <div class="form-group mb-3">
-            <label for="roles" style="color: #F05AE0;">Roles</label>
-            <select name="roles[]" id="roles" class="form-control @error('roles') is-invalid @enderror" multiple required>
+            <label for="roles" style="color: #F05AE0;">Role</label>
+            <select name="roles" id="roles" class="form-control @error('roles') is-invalid @enderror" required>
+                <option value="" disabled selected>Select a role</option>
                 @forelse ($roles as $role)
-                    @if ($role != 'Super Admin')
-                        <option value="{{ $role }}" {{ in_array($role, old('roles') ?? []) ? 'selected' : '' }}>
+                    @if ($role != 'Admin')
+                        <option value="{{ $role }}" {{ old('roles') == $role ? 'selected' : '' }}>
                             {{ $role }}
                         </option>
                     @else
-                        @if (Auth::user()->hasRole('Super Admin'))
-                            <option value="{{ $role }}" {{ in_array($role, old('roles') ?? []) ? 'selected' : '' }}>
+                        @if (Auth::user()->hasRole('Admin'))
+                            <option value="{{ $role }}" {{ old('roles') == $role ? 'selected' : '' }}>
                                 {{ $role }}
                             </option>
                         @endif

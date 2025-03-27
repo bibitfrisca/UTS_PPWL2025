@@ -3,11 +3,6 @@
 @section('content')
 <div class="container">
     <h1 style="color: #4B0D74;">Stock In List</h1>
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success text-center" role="alert">
-            {{ $message }}
-        </div>
-    @endif
     @can('create-stockin')
         <a href="{{ route('stockins.create') }}" class="btn btn-primary mb-3" style="background-color: #4B0D74; border-color: #4B0D74;">Add Stock In</a>
     @endcan

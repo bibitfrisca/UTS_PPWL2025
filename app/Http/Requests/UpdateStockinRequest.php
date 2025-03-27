@@ -22,13 +22,13 @@ class UpdateStockinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'stockin_code' => 'required'|'string'|'max:255',
-            'product_id' => 'required'|'integer',
-            'product_name' => 'required'|'string'|'max:255',
-            'user_id' => 'required'|'integer',
-            'name' => 'required'|'string'|'max:255',
-            'quantity' => 'required'|'integer', ,
-            'date' => 'required'|'date',
+            'stockin_code' => 'nullable|string|max:255',
+            'product_id' => 'nullable|integer',
+            'product_name' => 'nullable|string|max:255',
+            'user_id' => 'nullable|integer',
+            'name' => 'nullable|string|max:255',
+            'quantity' => 'nullable|integer',
+            'date' => 'nullable|date',
         ];
     }
 }

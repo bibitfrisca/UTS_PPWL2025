@@ -30,7 +30,7 @@
                 </select>
             </div>
             <div class="form-group mb-3">
-                <label for="name" style="color: #F05AE0;">Full Name</label>
+                <label for="name" style="color: #F05AE0;">Stock In Name</label>
                 <input type="text" name="name" id="name" class="form-control" required>
             </div>
             <div class="form-group mb-3">

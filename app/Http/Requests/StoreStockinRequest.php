@@ -22,13 +22,13 @@ class StoreStockinRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'stockin_code' => 'required'|'string'|'max:255',
-            'product_id' => 'required'|'integer',
-            'product_name' => 'required'|'string'|'max:255',
-            'user_id' => 'required'|'integer',
-            'name' => 'required'|'string'|'max:255',
-            'quantity' => 'required'|'integer', ,
-            'date' => 'required'|'date',
+            'stockin_code' => 'required|string|max:255',
+            'product_id' => 'required|integer',
+            'product_name' => 'required|string|max:255',
+            'user_id' => 'required|integer',
+            'name' => 'required|string|max:255',
+            'quantity' => 'required|integer',
+            'date' => 'required|date',
         ];
     }
 }

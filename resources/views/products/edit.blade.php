@@ -2,10 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 style="color:#fff; background-color: #4B0D74; border: 2px solid; padding: 10px; border-radius: 5px;">Edit Product</h5>
-            <a href="{{ route('products.index') }}" class="btn btn-primary btn-sm" style="background-color: #4B0D74; border-color: #4B0D74;">&larr; Back</a>
-        </div>
+        <h5 style="color:#fff; background-color: #4B0D74; border: 2px solid; padding: 10px; border-radius: 5px;">Edit Product</h5>
         <form action="{{ route('products.update', $product->id) }}" method="POST">
             @csrf
             @method('PUT')
