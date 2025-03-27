@@ -49,14 +49,11 @@ class StockinController extends Controller
         $stockins = $request->all();
         $stockins['stockin_code'] = 'I' . mt_rand(100000, 999999);
 
-        if ($stockins['stockin_code']) {
-            Stockin::create($stockins, $request->validated());
+        // Save the stockin data
+        Stockin::create($stockins);
 
-            return redirect()->route('stockins.index')
-            ->with('success', 'Stock In created successfully.');
-        }
         return redirect()->route('stockins.index')
-        ->with('error', 'Failed to create Stock In.');
+            ->with('success', 'Stock In created successfully.');
     }
     /**
      * Display the specified resource.

@@ -11,13 +11,17 @@
             <tr style="text-align: center">
                 <th scope="col">#</th>
                 <th scope="col">Stock Out Code</th>
-                <th scope="col">Product</th>
-                <th scope="col">Quantity</th>
+                <th scope="col">Product/s</th>
+                <th scope="col">Boxes</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($stockouts as $stockout)
+                @php
+                    $products = explode(',', $stockout->product_name);
+                    $quantities = explode(',', $stockout->quantity);
+                @endphp
                 <tr>
                 <style>
                     td, th {
@@ -32,9 +36,20 @@
                 </style>
                     <th scope="row" style="text-align: center">{{ $loop->iteration }}</th>
                     <td>{{ $stockout->stockout_code }}</td>
-                    <td>{{ $stockout->product_name }}</td>
-                    <td>{{ $stockout->quantity }}</td>
                     <td>
+                        <ul>
+                            @foreach ($products as $index => $product)
+                                <li>{{ trim($product) }} 
+                                    ({{ isset($quantities[$index]) ? ceil($quantities[$index] / 12) : '0' }} boxes) 
+                                </li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td>
+                        {{ array_sum(array_map(fn($q) => ceil($q / 12), $quantities)) }} boxes
+                    </td>
+                    <td>
+                        <a href="{{ route('stockouts.show', $stockout->id) }}" class="btn btn-primary" style="color:white; margin-right: 5px;"><i class="bi bi-eye"></i> Show</a>
                         @can('edit-stockout')
                             <a href="{{ route('stockouts.edit', $stockout->id) }}" class="btn btn-primary" style="background-color: #4B0D74; border-color: #4B0D74; margin-right: 5px;">Edit</a>
                         @endcan

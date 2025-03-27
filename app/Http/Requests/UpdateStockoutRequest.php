@@ -23,12 +23,10 @@ class UpdateStockoutRequest extends FormRequest
     {
         return [
             'stockout_code' => 'nullable'|'string'|'max:255',
-            'product_id' => 'nullable'|'integer',
-            'product_name' => 'nullable'|'string'|'max:255',
-            'user_id' => 'nullable'|'integer',
-            'name' => 'nullable'|'string'|'max:255',
-            'quantity' => 'nullable'|'integer', ,
-            'date' => 'nullable'|'date',
+            'product_name' => 'nullable|string',
+            'quantity' => 'nullable|string',
+            'user_id' => 'nullable|integer',
+            'date' => 'nullable|date',
         ];
     }
 }

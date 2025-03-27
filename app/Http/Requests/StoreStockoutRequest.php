@@ -22,12 +22,10 @@ class StoreStockoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'stockout_code' => 'required|string|max:255',
-            'product_id' => 'required|integer',
-            'product_name' => 'required|string|max:255',
+            'stockout_code' => 'string|max:255',
+            'product_name' => 'required|string',
+            'quantity' => 'required|string',
             'user_id' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'quantity' => 'required|integer',
             'date' => 'required|date',
         ];
     }

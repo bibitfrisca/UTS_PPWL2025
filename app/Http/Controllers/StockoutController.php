@@ -47,16 +47,13 @@ class StockoutController extends Controller
     public function store(StoreStockoutRequest $request): RedirectResponse
     {
         $stockouts = $request->all();
-        $stockouts['stockout_code'] = 'I' . mt_rand(100000, 999999);
+        $stockouts['stockout_code'] = 'O' . mt_rand(100000, 999999);
 
-        if ($stockouts['stockout_code']) {
-            Stockout::create($stockouts, $request->validated());
+        // Save the stockin data
+        Stockout::create($stockouts);
 
-            return redirect()->route('stockouts.index')
+        return redirect()->route('stockouts.index')
             ->with('success', 'Stock Out created successfully.');
-        }
-        return redirect()->route('stockout.index')
-        ->with('error', 'Failed to create Stock Out.');
     }
     /**
      * Display the specified resource.

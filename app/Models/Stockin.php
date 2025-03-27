@@ -14,13 +14,11 @@ class Stockin extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'stockin_code', 
-        'product_id', 
-        'product_name', 
+        'stockin_code',
+        'product_name',
+        'quantity',
         'user_id',
-        'name',
-        'quantity', 
-        'date'
+        'date',
     ];
 
     public function product()
@@ -30,6 +28,6 @@ class Stockin extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'name');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 }

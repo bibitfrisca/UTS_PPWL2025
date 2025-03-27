@@ -23,11 +23,9 @@ class UpdateStockinRequest extends FormRequest
     {
         return [
             'stockin_code' => 'nullable|string|max:255',
-            'product_id' => 'nullable|integer',
-            'product_name' => 'nullable|string|max:255',
+            'product_name' => 'nullable|string',
+            'quantity' => 'nullable|string',
             'user_id' => 'nullable|integer',
-            'name' => 'nullable|string|max:255',
-            'quantity' => 'nullable|integer',
             'date' => 'nullable|date',
         ];
     }
